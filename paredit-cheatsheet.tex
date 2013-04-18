@@ -1,0 +1,341 @@
+\documentclass[8pt,a4paper,landscape]{extarticle}
+
+\usepackage[cm]{fullpage}
+\usepackage{microtype}
+\usepackage[top=1cm,bottom=1.5cm,left=2cm,right=2cm]{geometry}
+\usepackage{multicol}
+\usepackage{eqlist}
+\usepackage[pdftex]{hyperref}
+\usepackage{nopageno}
+\usepackage[usenames]{xcolor}
+
+\newcommand{\doctitle}{Paredit Cheatsheet}
+\newcommand{\docauthor}{Taylor R. Campbell}
+
+\setcounter{secnumdepth}{-1} 
+\hypersetup{
+  pdfauthor={\docauthor},
+  pdftitle={\doctitle},
+  pdfstartview={FitH}
+}
+
+\linespread{0.5}
+\font\btt=rm-lmtk10
+
+\newcommand{\csr}{\textcolor{red}{| }}
+
+\begin{document}
+
+\hspace*{\fill}{\huge \bfseries \doctitle \hspace*{\fill}}
+\vspace{2em}
+
+\begin{multicols}{4}
+
+\section{Basic Insertion Commands}
+\begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
+  \tt
+\item[(] paredit-open-round\\
+  \\
+  (a b \csr c d)\\
+  (a b (\csr ) c d)\\
+  \\
+  (foo "bar \csr baz" quux)\\
+  (foo "bar (\csr baz" quux)\\
+
+
+\item[)] paredit-close-round\\
+  \\
+  (a b \csr c   )\\
+  (a b c)\csr \\
+  \\
+  ; Hello,\csr  world!\\
+  ; Hello,)\csr  world!\\
+
+
+\item[M-)] paredit-close-round-and-newline\\
+  \\
+  (defun f (x\csr   ))\\
+  (defun f (x)\\
+  \csr )\\
+  \\
+  ; (Foo.\csr \\
+  ; (Foo.)\csr \\
+
+
+\item[\lbrack] paredit-open-square\\
+  \\
+  (a b \csr c d)\\
+  (a b \lbrack \csr \rbrack c d)\\
+  \\
+  (foo "bar \csr baz" quux)\\
+  (foo "bar \lbrack baz" quux)\\
+
+
+\item[\rbrack] paredit-close-square\\
+  \\
+  (define-key keymap \lbrack frob\csr   \rbrack  'frobnicate)\\
+  (define-key keymap \lbrack frob\rbrack \csr  'frobnicate)\\
+  \\
+  ; \lbrack Bar.\csr \\
+  ; \lbrack Bar.\rbrack \csr \\
+
+
+\item["] paredit-doublequote\\
+  \\
+  (frob grovel \csr full lexical)\\
+  (frob grovel "\csr " full lexical)\\
+  \\
+  (foo "bar \csr baz" quux)\\
+  (foo "bar \"\csr baz" quux)\\
+
+
+\item[M-"] paredit-meta-doublequote\\
+  \\
+  (foo "bar \csr baz" quux)\\
+  (foo "bar baz"\\
+  \csr quux)\\
+  \\
+  (foo \csr (bar \#\textbackslash x "baz \textbackslash\textbackslash quux") zot)\\
+  (foo "\csr (bar \#\textbackslash x \"baz \textbackslash\textbackslash\textbackslash\textbackslash quux\")" zot)\\
+
+
+\item[\textbackslash] paredit-backslash\\
+  \\
+  (string \#\csr )\\
+  ; Escaping character... (x)\\
+  (string \#\textbackslash x\csr )\\
+  \\
+  "foo\csr bar"\\
+  ; Escaping character... (")\\
+  "foo\textbackslash "\csr bar"\\
+
+\item[M-;] paredit-comment-dwim\\
+  \\
+  (foo \csr bar)~~~; baz\\
+  (foo bar)~~~~~; \csr baz\\
+  \\
+  (frob grovel)\csr \\
+  (frob grovel)~; \csr \\
+  \\
+  \csr (defun hello-world ...)\\
+  ;;; \csr \\
+  (defun hello-world ...)\\
+
+
+\item[C-j] paredit-newline\\
+  \\
+  (let ((n (frobbotz))) \csr (display (+ n 1)\\
+  port))\\
+  (let ((n (frobbotz)))\\
+  \csr (display (+ n 1)\\
+  port))\\
+\end{eqlist}
+
+\section{Deleting and Killing}
+\begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
+  \tt
+\item[C-d] paredit-forward-delete\\
+  \\
+  (quu\csr x "zot")\\
+  (quu\csr  "zot")\\
+  \\
+  (quux \csr "zot")\\
+  (quux "\csr zot")\\
+  (quux "\csr ot")\\
+  \\
+  (foo (\csr ) bar)\\
+  (foo \csr  bar)\\
+  \\
+  \csr (foo bar)\\
+  (\csr foo bar)\\
+
+
+\item[DEL] paredit-backward-delete\\
+  \\
+  ("zot" q\csr uux)\\
+  ("zot" \csr uux)\\
+  \\
+  ("zot"\csr  quux)\\
+  ("zot\csr " quux)\\
+  ("zo\csr " quux)\\
+  \\
+  (foo (\csr ) bar)\\
+  (foo \csr  bar)\\
+  \\
+  (foo bar)\csr \\
+  (foo bar\csr )\\
+
+
+\item[C-k] paredit-kill\\
+  \\
+  (foo bar)\csr      ; Useless comment!\\
+  (foo bar)\csr \\
+  \\
+  (\csr foo bar)     ; Useful comment!\\
+  (\csr )     ; Useful comment!\\
+  \\
+  \csr (foo bar)     ; Useless line!\\
+  \csr \\
+  \\
+  (foo "\csr bar baz"\\
+  quux)\\
+  (foo "\csr "\\
+  quux)\\
+\columnbreak
+
+\item[M-d] paredit-forward-kill-word\\
+  \\
+  \csr (foo bar)    ; baz\\
+  (\csr  bar)    ; baz\\
+  (\csr )    ; baz\\
+  ()    ;\csr \\
+  \\
+  ;;;\csr  Frobnicate\\
+  (defun frobnicate ...)\\
+  ;;;\csr \\
+  (defun frobnicate ...)\\
+  ;;;\\
+  (\csr  frobnicate ...)\\
+
+
+\longitem[M-DEL] paredit-backward-kill-word\\
+  \\
+  (foo bar)    ; baz\\
+  (quux)\csr \\
+  (foo bar)    ; baz\\
+  (\csr )\\
+  (foo bar)    ; \csr \\
+  ()\\
+  (foo \csr )    ; \\
+  ()\\
+  (\csr )    ; \\
+  ()\\
+\end{eqlist}
+
+\section{Movement and Navigation}
+\begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
+  \tt
+\item[C-M-f] paredit-forward\\
+  \\
+  (foo \csr (bar baz) quux)\\
+  (foo (bar baz)\csr  quux)\\
+  \\
+  (foo (bar)\csr )\\
+  (foo (bar))\csr \\
+
+
+\item[C-M-b] paredit-backward\\
+  \\
+  (foo (bar baz)\csr  quux)\\
+  (foo \csr (bar baz) quux)\\
+  \\
+  (\csr (foo) bar)\\
+  \csr ((foo) bar)\\
+
+\item[C-M-u] paredit-backward-up
+\item[C-M-d] paredit-forward-down
+\item[C-M-p] paredit-backward-down
+\item[C-M-n] paredit-forward-up
+
+\end{eqlist}
+
+\section{Depth Changing}
+\begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
+  \tt
+\item[M-(] paredit-wrap-round\\
+  \\
+  (foo \csr bar baz)\\
+  (foo (\csr bar) baz)\\
+
+
+\item[M-s] paredit-splice-sexp\\
+  \\
+  (foo (bar\csr  baz) quux)\\
+  (foo bar\csr  baz quux)\\
+
+
+\item[M-$\uparrow$] paredit-splice-sexp-killing-backward\\
+  \\
+  (foo (let ((x 5)) \csr (sqrt n)) bar)\\
+  (foo (sqrt n) bar)\\
+
+
+\item[M-$\downarrow$] paredit-splice-sexp-killing-forward\\
+  \\
+  (a (b c\csr  d e) f)\\
+  (a b c f)\\
+
+
+\item[M-r] paredit-raise-sexp\\
+  \\
+  (dynamic-wind in (lambda () \csr body) out)\\
+  (dynamic-wind in \csr body out)\\
+  \csr body\\
+\end{eqlist}
+
+\section{Barfage and Slurpage}
+\begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
+  \tt
+\item[C-$\rightarrow$] paredit-forward-slurp-sexp\\
+  \\
+  (foo (bar \csr baz) quux zot)\\
+  (foo (bar \csr baz quux) zot)\\
+  \\
+  (a b ((c\csr  d)) e f)\\
+  (a b ((c\csr  d) e) f)\\
+
+
+\item[C-$\leftarrow$] paredit-forward-barf-sexp\\
+  \\
+  (foo (bar \csr baz quux) zot)\\
+  (foo (bar \csr baz) quux zot)\\
+
+
+\longitem[C-M-$\leftarrow$] paredit-backward-slurp-sexp\\
+  \\
+  (foo bar (baz\csr  quux) zot)\\
+  (foo (bar baz\csr  quux) zot)\\
+  \\
+  (a b ((c\csr  d)) e f)\\
+  (a (b (c\csr  d)) e f)\\
+
+
+\longitem[C-M-$\rightarrow$] paredit-backward-barf-sexp\\
+  \\
+  (foo (bar baz \csr quux) zot)\\
+  (foo bar (baz \csr quux) zot)\\
+\end{eqlist}
+
+\section{Miscellaneous}
+\begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
+  \tt
+\item[M-S] paredit-split-sexp\\
+  \\
+  (hello\csr  world)\\
+  (hello)\csr  (world)\\
+  \\
+  "Hello, \csr world!"\\
+  "Hello, "\csr  "world!"\\
+
+
+\item[M-J] paredit-join-sexps\\
+  \\
+  (hello)\csr  (world)\\
+  (hello\csr  world)\\
+  \\
+  "Hello, "\csr  "world!"\\
+  "Hello, \csr world!"\\
+  \\
+  hello-\\
+  \csr   world\\
+  hello-\csr world\\
+
+\longitem[C-c C-M-l] paredit-recentre-on-sexp
+
+\item[M-q] paredit-reindent-defun
+
+\end{eqlist}
+
+\end{multicols}
+
+\end{document}

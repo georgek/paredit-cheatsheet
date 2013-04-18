@@ -1,0 +1,18 @@
+* Paredit Cheatsheet
+
+** Overview
+
+   Just a LaTeX/PDF version of the Paredit documentation in the form of a
+   handy cheatsheet which you can stick on your wall while you're learning
+   Paredit.
+
+   "If you think paredit is not for you then you need to become the kind of
+   person that paredit is for."
+
+** Credits
+   Taylor R. Campbell
+
+   This is just a marked up version of the Paredit documentation so I take no
+   credit.  The licence is the same as Paredit's licence (GNU GPLv3).
+
+   http://mumble.net/~campbell/emacs/paredit.el
