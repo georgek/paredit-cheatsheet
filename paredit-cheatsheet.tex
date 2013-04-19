@@ -86,7 +86,7 @@
   (frob grovel "\csr " full lexical)\\
   \\
   (foo "bar \csr baz" quux)\\
-  (foo "bar \"\csr baz" quux)\\
+  (foo "bar "\csr baz" quux)\\
 
 
 \item[M-"] paredit-meta-doublequote\\
@@ -95,8 +95,11 @@
   (foo "bar baz"\\
   \csr quux)\\
   \\
-  (foo \csr (bar \#\textbackslash x "baz \textbackslash\textbackslash quux") zot)\\
-  (foo "\csr (bar \#\textbackslash x \"baz \textbackslash\textbackslash\textbackslash\textbackslash quux\")" zot)\\
+  (foo \csr (bar \#\textbackslash x "baz \textbackslash\textbackslash~quux")
+  zot)\\
+  (foo "\csr (bar \#\textbackslash\textbackslash x \textbackslash "baz
+  \textbackslash\textbackslash\textbackslash\textbackslash~quux\textbackslash
+  ")" zot)\\
 
 
 \item[\textbackslash] paredit-backslash\\
