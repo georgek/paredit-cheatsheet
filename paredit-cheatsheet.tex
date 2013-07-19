@@ -279,7 +279,7 @@
 \section{Barfage and Slurpage}
 \begin{eqlist}[\eqliststarinit\def\makelabel#1{\btt#1}\labelsep1em]
   \tt
-\item[C-$\rightarrow$] paredit-forward-slurp-sexp\\
+\item[C-)] paredit-forward-slurp-sexp\\
   \\
   (foo (bar \csr baz) quux zot)\\
   (foo (bar \csr baz quux) zot)\\
@@ -288,13 +288,13 @@
   (a b ((c\csr  d) e) f)\\
 
 
-\item[C-$\leftarrow$] paredit-forward-barf-sexp\\
+\item[C-\}] paredit-forward-barf-sexp\\
   \\
   (foo (bar \csr baz quux) zot)\\
   (foo (bar \csr baz) quux zot)\\
 
 
-\longitem[C-M-$\leftarrow$] paredit-backward-slurp-sexp\\
+\longitem[C-(] paredit-backward-slurp-sexp\\
   \\
   (foo bar (baz\csr  quux) zot)\\
   (foo (bar baz\csr  quux) zot)\\
@@ -303,7 +303,7 @@
   (a (b (c\csr  d)) e f)\\
 
 
-\longitem[C-M-$\rightarrow$] paredit-backward-barf-sexp\\
+\longitem[C-\{] paredit-backward-barf-sexp\\
   \\
   (foo (bar baz \csr quux) zot)\\
   (foo bar (baz \csr quux) zot)\\
