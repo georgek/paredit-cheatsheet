@@ -3,8 +3,8 @@
 ** Overview
 
    Just a LaTeX/PDF version of the Paredit documentation in the form of a
-   handy cheatsheet which you can stick on your wall while you're learning
-   Paredit.
+   handy cheatsheet/refcard which you can stick on your wall while you're
+   learning Paredit.
 
    "If you think paredit is not for you then you need to become the kind of
    person that paredit is for."
